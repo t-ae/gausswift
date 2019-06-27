@@ -1,6 +1,6 @@
 # Gausswift
 
-Gausswift provides gaussian (or normal) sampling functions for `Float`, `Double`, `Float80`
+Gausswift provides gaussian (or normal) sampling functions for `Float`, `Double`, `CGFloat`, `Float80`.
 
 Currently it supports two methods.
 - [Box–Muller transform](https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform)

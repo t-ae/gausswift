@@ -3,7 +3,6 @@ import Foundation
 public enum GaussianSamplingMethod {
     case boxMullerTransform
     case marsagliaPolarMethod
-    
 }
 
 public protocol GaussianSamplingFloatingPoint: BinaryFloatingPoint {
@@ -27,6 +26,16 @@ extension Double: GaussianSamplingFloatingPoint {
     }
     
     public static func cos(_ x: Double) -> Double {
+        return Foundation.cos(x)
+    }
+}
+
+extension CGFloat: GaussianSamplingFloatingPoint {
+    public static func log(_ x: CGFloat) -> CGFloat {
+        return Foundation.log(x)
+    }
+    
+    public static func cos(_ x: CGFloat) -> CGFloat {
         return Foundation.cos(x)
     }
 }
