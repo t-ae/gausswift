@@ -5,57 +5,68 @@ public enum GaussianSamplingMethod {
     case marsagliaPolarMethod
 }
 
-public protocol GaussianSamplingFloatingPoint: BinaryFloatingPoint {
+// TODO: Replace with `ElementaryFunctions`
+// https://github.com/apple/swift-evolution/blob/master/proposals/0246-mathable.md
+@usableFromInline
+protocol GaussianSamplingFloatingPoint: BinaryFloatingPoint {
     static func log(_ x: Self) -> Self
     static func cos(_ x: Self) -> Self
 }
 
 extension Float: GaussianSamplingFloatingPoint {
-    public static func log(_ x: Float) -> Float {
+    @inlinable
+    static func log(_ x: Float) -> Float {
         return logf(x)
     }
     
-    public static func cos(_ x: Float) -> Float {
+    @inlinable
+    static func cos(_ x: Float) -> Float {
         return cosf(x)
     }
 }
 
 extension Double: GaussianSamplingFloatingPoint {
-    public static func log(_ x: Double) -> Double {
+    @inlinable
+    static func log(_ x: Double) -> Double {
         return Foundation.log(x)
     }
     
-    public static func cos(_ x: Double) -> Double {
+    @inlinable
+    static func cos(_ x: Double) -> Double {
         return Foundation.cos(x)
     }
 }
 
 extension CGFloat: GaussianSamplingFloatingPoint {
-    public static func log(_ x: CGFloat) -> CGFloat {
+    @inlinable
+    static func log(_ x: CGFloat) -> CGFloat {
         return Foundation.log(x)
     }
     
-    public static func cos(_ x: CGFloat) -> CGFloat {
+    @inlinable
+    static func cos(_ x: CGFloat) -> CGFloat {
         return Foundation.cos(x)
     }
 }
 
 extension Float80: GaussianSamplingFloatingPoint {
-    public static func log(_ x: Float80) -> Float80 {
+    @inlinable
+    static func log(_ x: Float80) -> Float80 {
         return Foundation.log(x)
     }
     
-    public static func cos(_ x: Float80) -> Float80 {
+    @inlinable
+    static func cos(_ x: Float80) -> Float80 {
         return Foundation.cos(x)
     }
 }
 
 extension GaussianSamplingFloatingPoint where RawSignificand: FixedWidthInteger {
     @inlinable
-    public static func randomNormal<RNG: RandomNumberGenerator>(mu: Self,
-                                                                sigma: Self,
-                                                                using generator: inout RNG,
-                                                                method: GaussianSamplingMethod = .boxMullerTransform) -> Self {
+    static func _randomNormal<RNG: RandomNumberGenerator>(mu: Self,
+                                                          sigma: Self,
+                                                          using generator: inout RNG,
+                                                          method: GaussianSamplingMethod = .boxMullerTransform) -> Self {
         switch method {
         case .boxMullerTransform:
             var (x, y): (Self, Self)
@@ -83,10 +94,82 @@ extension GaussianSamplingFloatingPoint where RawSignificand: FixedWidthInteger 
     }
     
     @inlinable
-    public static func randomNormal(mu: Self,
-                                    sigma: Self,
-                                    method: GaussianSamplingMethod = .boxMullerTransform) -> Self {
+    static func _randomNormal(mu: Self,
+                              sigma: Self,
+                              method: GaussianSamplingMethod = .boxMullerTransform) -> Self {
         var rng = SystemRandomNumberGenerator()
-        return randomNormal(mu: mu, sigma: sigma, using: &rng, method: method)
+        return _randomNormal(mu: mu, sigma: sigma, using: &rng, method: method)
+    }
+}
+
+extension Float {
+    @inlinable
+    public static func randomNormal<RNG: RandomNumberGenerator>(mu: Float,
+                                                                sigma: Float,
+                                                                using generator: inout RNG,
+                                                                method: GaussianSamplingMethod = .boxMullerTransform) -> Float {
+        return _randomNormal(mu: mu, sigma: sigma, using: &generator, method: method)
+    }
+    
+    @inlinable
+    static func randomNormal(mu: Float,
+                             sigma: Float,
+                             method: GaussianSamplingMethod = .boxMullerTransform) -> Float {
+        var rng = SystemRandomNumberGenerator()
+        return _randomNormal(mu: mu, sigma: sigma, using: &rng, method: method)
+    }
+}
+
+extension Double {
+    @inlinable
+    public static func randomNormal<RNG: RandomNumberGenerator>(mu: Double,
+                                                                sigma: Double,
+                                                                using generator: inout RNG,
+                                                                method: GaussianSamplingMethod = .boxMullerTransform) -> Double {
+        return _randomNormal(mu: mu, sigma: sigma, using: &generator, method: method)
+    }
+    
+    @inlinable
+    static func randomNormal(mu: Double,
+                             sigma: Double,
+                             method: GaussianSamplingMethod = .boxMullerTransform) -> Double {
+        var rng = SystemRandomNumberGenerator()
+        return _randomNormal(mu: mu, sigma: sigma, using: &rng, method: method)
+    }
+}
+
+extension CGFloat {
+    @inlinable
+    public static func randomNormal<RNG: RandomNumberGenerator>(mu: CGFloat,
+                                                                sigma: CGFloat,
+                                                                using generator: inout RNG,
+                                                                method: GaussianSamplingMethod = .boxMullerTransform) -> CGFloat {
+        return _randomNormal(mu: mu, sigma: sigma, using: &generator, method: method)
+    }
+    
+    @inlinable
+    static func randomNormal(mu: CGFloat,
+                             sigma: CGFloat,
+                             method: GaussianSamplingMethod = .boxMullerTransform) -> CGFloat {
+        var rng = SystemRandomNumberGenerator()
+        return _randomNormal(mu: mu, sigma: sigma, using: &rng, method: method)
+    }
+}
+
+extension Float80 {
+    @inlinable
+    public static func randomNormal<RNG: RandomNumberGenerator>(mu: Float80,
+                                                                sigma: Float80,
+                                                                using generator: inout RNG,
+                                                                method: GaussianSamplingMethod = .boxMullerTransform) -> Float80 {
+        return _randomNormal(mu: mu, sigma: sigma, using: &generator, method: method)
+    }
+    
+    @inlinable
+    static func randomNormal(mu: Float80,
+                             sigma: Float80,
+                             method: GaussianSamplingMethod = .boxMullerTransform) -> Float80 {
+        var rng = SystemRandomNumberGenerator()
+        return _randomNormal(mu: mu, sigma: sigma, using: &rng, method: method)
     }
 }
