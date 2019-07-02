@@ -85,7 +85,7 @@ extension GaussianSamplingFloatingPoint where RawSignificand: FixedWidthInteger 
                 x = .random(in: -1..<1, using: &generator)
                 y = .random(in: -1..<1, using: &generator)
                 s = x*x + y*y
-            } while 0 < s && s < 1
+            } while s == 0 || 1 <= s
             
             let gauss = x * (-2 * log(s) / s).squareRoot()
             
