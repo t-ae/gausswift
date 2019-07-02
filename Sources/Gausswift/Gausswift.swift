@@ -75,17 +75,17 @@ extension GaussianSamplingFloatingPoint where RawSignificand: FixedWidthInteger 
                 y = .random(in: 0..<2, using: &generator)
             } while x == 0 || y == 0
             
-            let gauss = (-2 * Self.log(x)).squareRoot() * Self.cos(.pi * y)
+            let gauss = (-2 * log(x)).squareRoot() * Self.cos(.pi * y)
             
             return sigma * gauss + mu
         case .marsagliaPolarMethod:
             var (x, y, s): (Self, Self, Self)
             
             repeat {
-                x = .random(in: -1..<1)
-                y = .random(in: -1..<1)
+                x = .random(in: -1..<1, using: &generator)
+                y = .random(in: -1..<1, using: &generator)
                 s = x*x + y*y
-            } while s > 1
+            } while 0 < s && s < 1
             
             let gauss = x * (-2 * log(s) / s).squareRoot()
             

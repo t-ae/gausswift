@@ -254,6 +254,26 @@ final class GausswiftTests: XCTestCase {
         }
     }
     
+    func testBoxMullerPerformance() {
+        measure {
+            var sum: Double = 0
+            for _ in 0..<1_000_000 {
+                sum += Double.randomNormal(mu: 0, sigma: 1, method: .boxMullerTransform)
+            }
+            XCTAssertTrue(sum != 0)
+        }
+    }
+    
+    func testMarsagliaPerformance() {
+        measure {
+            var sum: Double = 0
+            for _ in 0..<1_000_000 {
+                sum += Double.randomNormal(mu: 0, sigma: 1, method: .marsagliaPolarMethod)
+            }
+            XCTAssertTrue(sum != 0)
+        }
+    }
+    
     static var allTests = [
         ("testDistribution_float_box_muller", testDistribution_float_box_muller),
         ("testDistribution_float_marsaglia", testDistribution_float_marsaglia),
