@@ -3,5 +3,6 @@ import XCTest
 import GausswiftTests
 
 var tests = [XCTestCaseEntry]()
-tests += GausswiftTests.allTests()
+tests += GausswiftTests.__allTests()
+
 XCTMain(tests)
