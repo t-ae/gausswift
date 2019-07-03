@@ -274,6 +274,39 @@ final class GausswiftTests: XCTestCase {
         }
     }
     
+    struct FastRNG: RandomNumberGenerator {
+        var x: UInt64 = 88172645463325252
+        
+        mutating func next() -> UInt64 {
+            x = x ^ (x << 13)
+            x = x ^ (x >> 7)
+            x = x ^ (x << 17)
+            return x
+        }
+    }
+    
+    func testBoxMullerPerformanceFast() {
+        var rng = FastRNG()
+        measure {
+            var sum: Double = 0
+            for _ in 0..<10_000_000 {
+                sum += Double.randomNormal(mu: 0, sigma: 1, using: &rng, method: .boxMullerTransform)
+            }
+            XCTAssertTrue(sum != 0)
+        }
+    }
+    
+    func testMarsagliaPerformanceFast() {
+        var rng = FastRNG()
+        measure {
+            var sum: Double = 0
+            for _ in 0..<10_000_000 {
+                sum += Double.randomNormal(mu: 0, sigma: 1, using: &rng, method: .marsagliaPolarMethod)
+            }
+            XCTAssertTrue(sum != 0)
+        }
+    }
+    
     static var allTests = [
         ("testDistribution_float_box_muller", testDistribution_float_box_muller),
         ("testDistribution_float_marsaglia", testDistribution_float_marsaglia),
