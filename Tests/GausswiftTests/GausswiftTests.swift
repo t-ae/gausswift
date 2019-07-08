@@ -254,6 +254,91 @@ final class GausswiftTests: XCTestCase {
         }
     }
     
+    // Currently XCTAssertEqual with Float80 causes crash.
+    func testDistribution_float80_box_muller() {
+        typealias T = Float80
+        let method = GaussianSamplingMethod.boxMullerTransform
+        
+        do {
+            let mu: T = 0
+            let sigma: T = 1
+            
+            var array = [T]()
+            
+            for _ in 0..<1_000_000 {
+                array.append(T.randomNormal(mu: mu, sigma: sigma, method: method))
+            }
+            
+            let sum = array.reduce(0, +)
+            let sum2 = array.reduce(0) { acc, v in acc + v*v }
+            let mean = sum / T(array.count)
+            let std = sqrt(sum2 / T(array.count) - mean*mean)
+            
+            XCTAssertEqual(Double(mean), Double(mu), accuracy: 1e-2)
+            XCTAssertEqual(Double(std), Double(sigma), accuracy: 1e-2)
+        }
+        do {
+            let mu: T = 3
+            let sigma: T = 4
+            
+            var array = [T]()
+            
+            for _ in 0..<1_000_000 {
+                array.append(T.randomNormal(mu: mu, sigma: sigma, method: method))
+            }
+            
+            let sum = array.reduce(0, +)
+            let sum2 = array.reduce(0) { acc, v in acc + v*v }
+            let mean = sum / T(array.count)
+            let std = sqrt(sum2 / T(array.count) - mean*mean)
+            
+            XCTAssertEqual(Double(mean), Double(mu), accuracy: 1e-2)
+            XCTAssertEqual(Double(std), Double(sigma), accuracy: 1e-2)
+        }
+    }
+    
+    func testDistribution_float80_marsaglia() {
+        typealias T = Float80
+        let method = GaussianSamplingMethod.marsagliaPolarMethod
+        
+        do {
+            let mu: T = 0
+            let sigma: T = 1
+            
+            var array = [T]()
+            
+            for _ in 0..<1_000_000 {
+                array.append(T.randomNormal(mu: mu, sigma: sigma, method: method))
+            }
+            
+            let sum = array.reduce(0, +)
+            let sum2 = array.reduce(0) { acc, v in acc + v*v }
+            let mean = sum / T(array.count)
+            let std = sqrt(sum2 / T(array.count) - mean*mean)
+            
+            XCTAssertEqual(Double(mean), Double(mu), accuracy: 1e-2)
+            XCTAssertEqual(Double(std), Double(sigma), accuracy: 1e-2)
+        }
+        do {
+            let mu: T = 3
+            let sigma: T = 4
+            
+            var array = [T]()
+            
+            for _ in 0..<1_000_000 {
+                array.append(T.randomNormal(mu: mu, sigma: sigma, method: method))
+            }
+            
+            let sum = array.reduce(0, +)
+            let sum2 = array.reduce(0) { acc, v in acc + v*v }
+            let mean = sum / T(array.count)
+            let std = sqrt(sum2 / T(array.count) - mean*mean)
+            
+            XCTAssertEqual(Double(mean), Double(mu), accuracy: 1e-2)
+            XCTAssertEqual(Double(std), Double(sigma), accuracy: 1e-2)
+        }
+    }
+    
     func testBoxMullerPerformance() {
         measure {
             var sum: Double = 0
@@ -306,13 +391,4 @@ final class GausswiftTests: XCTestCase {
             XCTAssertTrue(sum != 0)
         }
     }
-    
-    static var allTests = [
-        ("testDistribution_float_box_muller", testDistribution_float_box_muller),
-        ("testDistribution_float_marsaglia", testDistribution_float_marsaglia),
-        ("testDistribution_double_box_muller", testDistribution_double_box_muller),
-        ("testDistribution_double_marsaglia", testDistribution_double_marsaglia),
-        ("testDistribution_cgfloat_box_muller", testDistribution_cgfloat_box_muller),
-        ("testDistribution_cgfloat_marsaglia", testDistribution_cgfloat_marsaglia),
-    ]
 }

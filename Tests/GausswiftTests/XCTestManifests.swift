@@ -12,6 +12,8 @@ extension GausswiftTests {
         ("testDistribution_cgfloat_marsaglia", testDistribution_cgfloat_marsaglia),
         ("testDistribution_double_box_muller", testDistribution_double_box_muller),
         ("testDistribution_double_marsaglia", testDistribution_double_marsaglia),
+        ("testDistribution_float80_box_muller", testDistribution_float80_box_muller),
+        ("testDistribution_float80_marsaglia", testDistribution_float80_marsaglia),
         ("testDistribution_float_box_muller", testDistribution_float_box_muller),
         ("testDistribution_float_marsaglia", testDistribution_float_marsaglia),
         ("testMarsagliaPerformance", testMarsagliaPerformance),
