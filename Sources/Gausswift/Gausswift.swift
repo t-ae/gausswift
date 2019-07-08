@@ -112,9 +112,9 @@ extension Float {
     }
     
     @inlinable
-    static func randomNormal(mu: Float,
-                             sigma: Float,
-                             method: GaussianSamplingMethod = .boxMullerTransform) -> Float {
+    public static func randomNormal(mu: Float,
+                                    sigma: Float,
+                                    method: GaussianSamplingMethod = .boxMullerTransform) -> Float {
         var rng = SystemRandomNumberGenerator()
         return _randomNormal(mu: mu, sigma: sigma, using: &rng, method: method)
     }
@@ -130,9 +130,9 @@ extension Double {
     }
     
     @inlinable
-    static func randomNormal(mu: Double,
-                             sigma: Double,
-                             method: GaussianSamplingMethod = .boxMullerTransform) -> Double {
+    public static func randomNormal(mu: Double,
+                                    sigma: Double,
+                                    method: GaussianSamplingMethod = .boxMullerTransform) -> Double {
         var rng = SystemRandomNumberGenerator()
         return _randomNormal(mu: mu, sigma: sigma, using: &rng, method: method)
     }
@@ -148,9 +148,9 @@ extension CGFloat {
     }
     
     @inlinable
-    static func randomNormal(mu: CGFloat,
-                             sigma: CGFloat,
-                             method: GaussianSamplingMethod = .boxMullerTransform) -> CGFloat {
+    public static func randomNormal(mu: CGFloat,
+                                    sigma: CGFloat,
+                                    method: GaussianSamplingMethod = .boxMullerTransform) -> CGFloat {
         var rng = SystemRandomNumberGenerator()
         return _randomNormal(mu: mu, sigma: sigma, using: &rng, method: method)
     }
@@ -166,9 +166,9 @@ extension Float80 {
     }
     
     @inlinable
-    static func randomNormal(mu: Float80,
-                             sigma: Float80,
-                             method: GaussianSamplingMethod = .boxMullerTransform) -> Float80 {
+    public static func randomNormal(mu: Float80,
+                                    sigma: Float80,
+                                    method: GaussianSamplingMethod = .boxMullerTransform) -> Float80 {
         var rng = SystemRandomNumberGenerator()
         return _randomNormal(mu: mu, sigma: sigma, using: &rng, method: method)
     }

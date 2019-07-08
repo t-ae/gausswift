@@ -1,5 +1,5 @@
 import XCTest
-@testable import Gausswift
+import Gausswift
 
 final class GausswiftTests: XCTestCase {
     func testDistribution_float_box_muller() {
